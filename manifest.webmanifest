@@ -1,0 +1,9 @@
+{
+  "name": "Fantasy Hölle 26/27",
+  "short_name": "Fantasy Hölle",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b0e13",
+  "theme_color": "#10131a",
+  "description": "Fantasy-liga för Hölle 26/27"
+}
