@@ -48,8 +48,21 @@ function load(){
   }catch(e){}
   return blankState();
 }
-function save(){
+async function save(){
   localStorage.setItem(KEY, JSON.stringify(state));
+
+  const { error } = await db
+    .from("fantasy_state")
+    .upsert({
+      id: "main",
+      data: state,
+      updated_at: new Date().toISOString()
+    });
+
+  if(error){
+    console.error("Supabase save error:", error);
+  }
+
   refreshAll();
 }
 function money(v){ return Number(v).toFixed(1).replace(".",",")+" m"; }
