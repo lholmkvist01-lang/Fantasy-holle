@@ -372,3 +372,25 @@ document.addEventListener("DOMContentLoaded",()=>{
   nav("team");
   if("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(()=>{});
 });
+async function loadCloudState(){
+  const { data, error } = await db
+    .from("fantasy_state")
+    .select("data")
+    .eq("id", "main")
+    .single();
+
+  if(error){
+    console.error(error);
+    return;
+  }
+
+  if(data && data.data && Object.keys(data.data).length > 0){
+    state = data.data;
+    localStorage.setItem(KEY, JSON.stringify(state));
+    refreshAll();
+  } else {
+    await save();
+  }
+}
+
+window.addEventListener("load", loadCloudState);
