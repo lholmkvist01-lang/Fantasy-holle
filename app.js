@@ -330,8 +330,7 @@ function calcScore(player, s) {
 
     const pm = Number(s.plusMinus || 0);
 
-    if (pm > 0) pts += cfg.plusPositive;
-    else if (pm < 0) pts += cfg.plusNegative;
+    pts += pm * 2;  
   }
 
   return pts;
