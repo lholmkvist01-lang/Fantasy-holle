@@ -540,6 +540,31 @@ function refreshTeam() {
 
   renderTeamSlots(ids);
   renderMarket();
+  renderManagerTeams();}
+
+function renderManagerTeams() {
+  const area = el("managerTeams");
+  if (!area) return;
+
+  if (!roundObj().locked) {
+    area.innerHTML = "";
+    return;
+  }
+
+  area.innerHTML = managers.map(m => {
+    const ids = teamFor(m.id, currentRound);
+    const names = ids
+      .map(id => playerById(id)?.name)
+      .filter(Boolean)
+      .join(", ");
+
+    return `
+      <div class="card" style="margin-top:10px;">
+        <strong>${m.name}</strong><br>
+        ${names || "Inget lag sparat"}
+      </div>
+    `;
+  }).join("");
 }
 
 function renderTeamSlots(ids) {
