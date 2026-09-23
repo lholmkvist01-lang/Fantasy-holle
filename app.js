@@ -761,8 +761,17 @@ async function saveTeam() {
       "Välj 1 MV, 2 backar och 3 forwards inom 45 m"
     );
   }
+if (currentRound > 1) {
+  const previousIds = teamFor(me.id, currentRound - 1);
 
-  try {
+  if (previousIds.length === 6) {
+    const playersOut = previousIds.filter(id => !ids.includes(id)).length;
+
+    if (playersOut > 2) {
+      return showToast("Du får max göra 2 byten per omgång");
+    }
+  }
+}  try {
     await saveMyTeam();
 
     showToast(
