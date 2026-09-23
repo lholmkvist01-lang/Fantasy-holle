@@ -1448,13 +1448,43 @@ async function deleteManager(id) {
     );
   }
 }
+function refreshTeamViewer() {
+  const select = el("teamViewerSelect");
+  const viewer = el("teamViewer");
 
-function refreshAll() {
+  if (!select || !viewer) return;
+
+  select.innerHTML =
+    `<option value="">Välj manager</option>` +
+    managers.map(m =>
+      `<option value="${m.id}">${m.name}</option>`
+    ).join("");
+
+  select.onchange = () => {
+    const managerId = select.value;
+
+    if (!managerId) {
+      viewer.innerHTML = "";
+      return;
+    }
+
+    const ids = teamFor(managerId, currentRound);
+
+    const names = ids
+      .map(id => playerById(id)?.name)
+      .filter(Boolean);
+
+    viewer.innerHTML = names.length
+      ? names.map(name => `<div>${name}</div>`).join("")
+      : "Inget lag sparat";
+  };
+}function refreshAll() {
   if (!league || !me) return;
 
   refreshHeader();
   refreshTeam();
   refreshStandings();
+  refreshTeamViewer();
   refreshRound();
   refreshEconomy();
   refreshAdmin();
